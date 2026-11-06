@@ -1,2 +1,2 @@
-export const SUPABASE_URL = "";
-export const SUPABASE_ANON_KEY = "";
+export const SUPABASE_URL = "https://qxkitvbicpyfiskabcii.supabase.co";
+export const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF4a2l0dmJpY3B5Zmlza2FiY2lpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM5OTM0NDUsImV4cCI6MjEwOTU2OTQ0NX0.YKVS-HSVCwQSJ4X0E14w6-mW2ZIXflm3SEQ7Fi7HkWE";
