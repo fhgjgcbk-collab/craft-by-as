@@ -6,15 +6,16 @@ L’administration utilise Supabase pour la connexion, les contenus et les image
 
 1. Créez un projet sur [supabase.com](https://supabase.com/).
 2. Dans **SQL Editor**, exécutez le contenu de `supabase-schema.sql`.
-3. Dans les réglages d’authentification, désactivez les inscriptions publiques. Dans **Authentication → Users**, créez votre compte avec votre adresse e-mail et un mot de passe. La page d’administration ne permet pas l’inscription.
-4. Copiez l’UUID de cet utilisateur. Dans le SQL Editor, exécutez en remplaçant l’UUID :
+3. Dans **Authentication → URL Configuration**, gardez comme **Site URL** `https://craft-by-as.vercel.app` et ajoutez `https://craft-by-as.vercel.app/admin.html?set-password=1` aux **Redirect URLs**.
+4. Dans les réglages d’authentification, désactivez les inscriptions publiques. Dans **Authentication → Users**, invitez votre adresse e-mail. Pour une invitation, choisissez `https://craft-by-as.vercel.app/admin.html?set-password=1` comme URL de redirection si Supabase le demande.
+5. Copiez l’UUID de l’utilisateur invité. Dans le SQL Editor, exécutez en remplaçant l’UUID :
 
    ```sql
    insert into public.portfolio_admins (user_id)
    values ('UUID-DE-VOTRE-UTILISATEUR');
    ```
 
-   Cette étape accorde les droits d’administration uniquement à cet utilisateur.
+   Cette étape accorde les droits d’administration uniquement à cet utilisateur. Faites-la avant d’accepter l’invitation.
 
 ## 2. Connecter le site
 
@@ -29,6 +30,8 @@ La clé publique est destinée au navigateur ; les règles RLS du schéma protè
 
 ## 3. Utiliser l’administration
 
-Publiez ensemble les fichiers du site, puis ouvrez `admin.html` sur le même domaine. Pour tester en local, servez le dossier avec une extension de serveur local (par exemple Live Server) plutôt que d’ouvrir les fichiers directement. Connectez-vous avec le compte créé dans Supabase. L’administration permet de modifier le profil et sa photo, gérer le parcours, et créer/modifier/supprimer les projets et créations avec plusieurs images.
+Publiez ensemble les fichiers du site, puis ouvrez `admin.html` sur le même domaine. Ouvrez le lien reçu par e-mail : la page `admin.html?set-password=1` vous demande de choisir et confirmer un mot de passe. Le formulaire de connexion propose aussi **Mot de passe oublié ?** pour demander un nouveau lien de réinitialisation. Pour tester en local, ajoutez l’URL complète de redirection locale aux **Redirect URLs** Supabase et servez le dossier avec une extension de serveur local (par exemple Live Server) plutôt que d’ouvrir les fichiers directement.
+
+Après connexion, l’administration permet de modifier le profil et sa photo, gérer le parcours, et créer/modifier/supprimer les projets et créations avec plusieurs images.
 
 Les images acceptées sont JPEG, PNG, WebP et GIF, avec une limite de 5 Mo par image. Les contenus enregistrés sont visibles sur le portfolio public.

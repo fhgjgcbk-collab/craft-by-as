@@ -264,6 +264,19 @@ h1 em {
   color: var(--admin-muted);
 }
 
+.text-button {
+  justify-self: start;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--admin-gold);
+  text-align: left;
+}
+
+.text-button:hover {
+  text-decoration: underline;
+}
+
 .button-danger {
   border-color: rgba(255, 115, 115, 0.4);
   background: rgba(150, 40, 40, 0.18);

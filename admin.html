@@ -57,6 +57,40 @@
           <button class="button button-primary" type="submit">
             Se connecter
           </button>
+          <button id="forgot-password" class="text-button" type="button">
+            Mot de passe oublié ?
+          </button>
+        </form>
+      </section>
+
+      <section id="password-view" class="panel login-panel" hidden>
+        <h2>Choisir un mot de passe</h2>
+        <p>Créez un mot de passe pour votre compte administrateur.</p>
+        <form id="password-form" class="form-grid">
+          <label>
+            Nouveau mot de passe
+            <input
+              id="new-password"
+              type="password"
+              autocomplete="new-password"
+              minlength="8"
+              required
+            />
+            <span class="help">8 caractères minimum.</span>
+          </label>
+          <label>
+            Confirmer le mot de passe
+            <input
+              id="confirm-password"
+              type="password"
+              autocomplete="new-password"
+              minlength="8"
+              required
+            />
+          </label>
+          <button class="button button-primary" type="submit">
+            Enregistrer le mot de passe
+          </button>
         </form>
       </section>
 

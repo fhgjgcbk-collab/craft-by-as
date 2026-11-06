@@ -7,6 +7,7 @@ import {
 
 const $ = (selector) => document.querySelector(selector);
 const loginView = $("#login-view");
+const passwordView = $("#password-view");
 const dashboard = $("#dashboard");
 const status = $("#status");
 const journeyForm = $("#journey-form");
@@ -56,8 +57,16 @@ function formValues(form) {
 
 function displayLogin(message) {
   dashboard.hidden = true;
+  passwordView.hidden = true;
   loginView.hidden = false;
   if (message) showStatus(message, "error");
+}
+
+function displayPasswordForm() {
+  dashboard.hidden = true;
+  loginView.hidden = true;
+  passwordView.hidden = false;
+  clearStatus();
 }
 
 async function showDashboard(session) {
@@ -80,6 +89,7 @@ async function showDashboard(session) {
 
   clearStatus();
   loginView.hidden = true;
+  passwordView.hidden = true;
   dashboard.hidden = false;
   $("#signed-in-as").textContent = `Connecté en tant que ${session.user.email}`;
   const loadError = await loadContent();
@@ -90,6 +100,48 @@ async function showDashboard(session) {
         signOutError ? ` La déconnexion a échoué : ${signOutError.message}` : ""
       }`,
     );
+  }
+}
+
+async function saveNewPassword(event) {
+  event.preventDefault();
+  clearStatus();
+  const form = event.currentTarget;
+  const password = $("#new-password").value;
+  if (password.length < 8) {
+    showStatus("Choisissez un mot de passe d’au moins 8 caractères.", "error");
+    return;
+  }
+  if (password !== $("#confirm-password").value) {
+    showStatus("Les deux mots de passe ne correspondent pas.", "error");
+    return;
+  }
+
+  setBusy(form, true);
+  try {
+    const { error } = await supabase.auth.updateUser({ password });
+    if (error) throw error;
+
+    form.reset();
+    window.history.replaceState({}, "", window.location.pathname);
+    const {
+      data: { session },
+      error: sessionError,
+    } = await supabase.auth.getSession();
+    if (sessionError) throw sessionError;
+    if (!session) {
+      displayLogin("Mot de passe enregistré. Connectez-vous avec celui-ci.");
+      return;
+    }
+
+    await showDashboard(session);
+  } catch (error) {
+    showStatus(
+      `Impossible d’enregistrer le mot de passe : ${error.message}`,
+      "error",
+    );
+  } finally {
+    setBusy(form, false);
   }
 }
 
@@ -607,6 +659,37 @@ function bindEvents() {
     }
   });
 
+  $("#password-form").addEventListener("submit", saveNewPassword);
+
+  $("#forgot-password").addEventListener("click", async () => {
+    clearStatus();
+    const email = $("#login-email").value.trim();
+    if (!email) {
+      showStatus(
+        "Saisissez votre adresse e-mail avant de demander un lien.",
+        "error",
+      );
+      $("#login-email").focus();
+      return;
+    }
+
+    const button = $("#forgot-password");
+    button.disabled = true;
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}${window.location.pathname}?set-password=1`,
+      });
+      if (error) throw error;
+      showStatus(
+        "Si cette adresse possède un compte, un lien pour choisir un nouveau mot de passe va lui être envoyé.",
+      );
+    } catch (error) {
+      showStatus(`Impossible d’envoyer le lien : ${error.message}`, "error");
+    } finally {
+      button.disabled = false;
+    }
+  });
+
   document.querySelectorAll(".tab").forEach((tab) => {
     tab.addEventListener("click", () => selectTab(tab.dataset.tab));
   });
@@ -648,9 +731,21 @@ async function initialize() {
   }
 
   bindEvents();
+  const passwordUpdateRequired =
+    new URLSearchParams(window.location.search).get("set-password") === "1";
   const { data, error } = await supabase.auth.getSession();
   if (error) {
     displayLogin(`Impossible de vérifier la session : ${error.message}`);
+    return;
+  }
+  if (passwordUpdateRequired) {
+    if (data.session) {
+      displayPasswordForm();
+    } else {
+      displayLogin(
+        "Lien invalide ou expiré. Demandez un nouveau lien de réinitialisation.",
+      );
+    }
     return;
   }
   if (data.session) await showDashboard(data.session);
