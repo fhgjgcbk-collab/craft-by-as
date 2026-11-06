@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Administration · Portfolio Angie</title>
+    <link rel="stylesheet" href="admin.css" />
+    <script type="module" src="admin.js"></script>
+  </head>
+  <body>
+    <main class="admin-shell">
+      <a class="back-link" href="index.html">← Retour au portfolio</a>
+      <header class="page-header">
+        <div>
+          <p class="eyebrow">Espace privé</p>
+          <h1>Administration <em>du portfolio</em></h1>
+          <p class="subtitle">Mettez à jour vos contenus et vos images.</p>
+        </div>
+      </header>
+
+      <div
+        id="status"
+        class="status"
+        role="status"
+        aria-live="polite"
+        hidden
+      ></div>
+
+      <section id="login-view" class="panel login-panel">
+        <h2>Connexion</h2>
+        <p>Connectez-vous avec votre compte administrateur Supabase.</p>
+        <div id="config-notice" class="notice" hidden>
+          Configurez d’abord l’URL et la clé publique dans
+          <code>supabase-config.js</code>, puis suivez le guide
+          <a href="SUPABASE-SETUP.md">SUPABASE-SETUP.md</a>.
+        </div>
+        <form id="login-form" class="form-grid">
+          <label>
+            Adresse e-mail
+            <input
+              id="login-email"
+              type="email"
+              autocomplete="username"
+              required
+            />
+          </label>
+          <label>
+            Mot de passe
+            <input
+              id="login-password"
+              type="password"
+              autocomplete="current-password"
+              required
+            />
+          </label>
+          <button class="button button-primary" type="submit">
+            Se connecter
+          </button>
+        </form>
+      </section>
+
+      <section id="dashboard" hidden>
+        <header class="dashboard-header">
+          <p id="signed-in-as"></p>
+          <button id="sign-out" class="button button-quiet" type="button">
+            Se déconnecter
+          </button>
+        </header>
+
+        <nav class="tabs" aria-label="Sections d’administration">
+          <button class="tab active" type="button" data-tab="profile-panel">
+            Profil
+          </button>
+          <button class="tab" type="button" data-tab="journey-panel">
+            Parcours
+          </button>
+          <button class="tab" type="button" data-tab="projects-panel">
+            Projets &amp; créations
+          </button>
+        </nav>
+
+        <section id="profile-panel" class="panel tab-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Informations personnelles</p>
+              <h2>Profil</h2>
+            </div>
+          </div>
+          <form id="profile-form" class="form-grid">
+            <div class="two-columns">
+              <label>Prénom(s)<input name="first_name" required /></label>
+              <label>Nom<input name="last_name" required /></label>
+            </div>
+            <label>Accroche sous le nom<input name="eyebrow" /></label>
+            <label>Titre professionnel<input name="title" /></label>
+            <label
+              >Présentation courte<textarea name="tagline" rows="3"></textarea>
+            </label>
+            <label
+              >À propos<textarea name="about_text" rows="7"></textarea>
+            </label>
+            <label>Phrase de signature<input name="motto" /></label>
+            <div class="two-columns">
+              <label>Formation actuelle<input name="formation" /></label>
+              <label>Origine / ville<input name="origin" /></label>
+            </div>
+            <label>Spécialisation<input name="specialization" /></label>
+            <label>Objectif professionnel<input name="objective" /></label>
+            <label
+              >Adresse e-mail de contact<input
+                name="contact_email"
+                type="email"
+            /></label>
+            <label class="upload-label">
+              Photo de profil
+              <input
+                id="profile-photo"
+                type="file"
+                accept="image/jpeg,image/png,image/webp,image/gif"
+              />
+              <span class="help">JPEG, PNG, WebP ou GIF · 5 Mo maximum</span>
+            </label>
+            <img
+              id="profile-photo-preview"
+              class="profile-preview"
+              alt="Aperçu de la photo de profil"
+              hidden
+            />
+            <button class="button button-primary" type="submit">
+              Enregistrer le profil
+            </button>
+          </form>
+        </section>
+
+        <section id="journey-panel" class="panel tab-panel" hidden>
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Études et expériences</p>
+              <h2>Mon parcours</h2>
+            </div>
+            <button
+              id="new-journey"
+              class="button button-secondary"
+              type="button"
+            >
+              Ajouter une étape
+            </button>
+          </div>
+          <div id="journey-list" class="entry-list"></div>
+          <form id="journey-form" class="form-grid editor-form" hidden>
+            <h3 id="journey-form-title">Ajouter une étape</h3>
+            <input name="id" type="hidden" />
+            <div class="two-columns">
+              <label
+                >Période<input name="period" placeholder="2024 — En cours"
+              /></label>
+              <label>Intitulé<input name="title" required /></label>
+            </div>
+            <label
+              >Établissement / organisation<input name="organization"
+            /></label>
+            <label
+              >Description<textarea name="description" rows="3"></textarea>
+            </label>
+            <div class="button-row">
+              <button class="button button-primary" type="submit">
+                Enregistrer l’étape
+              </button>
+              <button
+                class="button button-quiet"
+                type="button"
+                data-cancel="journey"
+              >
+                Annuler
+              </button>
+            </div>
+          </form>
+        </section>
+
+        <section id="projects-panel" class="panel tab-panel" hidden>
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Contenus publiés</p>
+              <h2>Projets &amp; créations</h2>
+            </div>
+            <button
+              id="new-project"
+              class="button button-secondary"
+              type="button"
+            >
+              Ajouter un contenu
+            </button>
+          </div>
+          <div id="project-list" class="entry-list"></div>
+          <form id="project-form" class="form-grid editor-form" hidden>
+            <h3 id="project-form-title">Ajouter un contenu</h3>
+            <input name="id" type="hidden" />
+            <div class="two-columns">
+              <label>
+                Type
+                <select name="content_type">
+                  <option value="project">Projet</option>
+                  <option value="work">Création visuelle</option>
+                </select>
+              </label>
+              <label>Titre<input name="title" required /></label>
+            </div>
+            <label
+              >Catégorie<input name="category" placeholder="Design graphique"
+            /></label>
+            <label
+              >Description<textarea name="description" rows="4"></textarea>
+            </label>
+            <label>
+              Compétences / tags
+              <input
+                name="tags"
+                placeholder="Branding, Identité visuelle, Affiche"
+              />
+              <span class="help">Séparez les éléments par des virgules.</span>
+            </label>
+            <label
+              >Icône de remplacement<input name="emoji" maxlength="8" value="✦"
+            /></label>
+            <div>
+              <p class="field-label">Photos du projet</p>
+              <div id="project-image-list" class="image-list"></div>
+              <label class="upload-label">
+                Ajouter des photos
+                <input
+                  id="project-images"
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp,image/gif"
+                  multiple
+                />
+                <span class="help"
+                  >Plusieurs photos possibles · 5 Mo maximum par image</span
+                >
+              </label>
+            </div>
+            <div class="button-row">
+              <button class="button button-primary" type="submit">
+                Enregistrer le contenu
+              </button>
+              <button
+                class="button button-quiet"
+                type="button"
+                data-cancel="project"
+              >
+                Annuler
+              </button>
+            </div>
+          </form>
+        </section>
+      </section>
+    </main>
+  </body>
+</html>
