@@ -11,6 +11,24 @@
   --border: rgba(123, 79, 212, 0.18);
   --r: 12px;
 }
+.icon-sprite {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+.icon {
+  display: inline-block;
+  width: 1.25rem;
+  height: 1.25rem;
+  flex: 0 0 auto;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.7;
+  vertical-align: middle;
+}
 *,
 *::before,
 *::after {
@@ -485,8 +503,13 @@ section {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.1rem;
   flex-shrink: 0;
+}
+.info-icon .icon,
+.cert-logo .icon,
+.social-icon .icon {
+  width: 1.15rem;
+  height: 1.15rem;
 }
 .info-label {
   font-size: 0.72rem;
@@ -526,7 +549,6 @@ section {
   box-shadow: 0 12px 36px rgba(123, 79, 212, 0.12);
 }
 .skill-card-icon {
-  font-size: 1.6rem;
   margin-bottom: 1rem;
   width: 52px;
   height: 52px;
@@ -535,6 +557,10 @@ section {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.skill-card-icon .icon {
+  width: 1.65rem;
+  height: 1.65rem;
 }
 .skill-card h3 {
   font-family: "Playfair Display", serif;
@@ -593,7 +619,6 @@ section {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 3.5rem;
   position: relative;
   overflow: hidden;
 }
@@ -602,9 +627,16 @@ section {
   inset: 0;
   opacity: 0.18;
 }
-.project-thumb .project-emoji {
+.project-thumb .project-icon {
   position: relative;
   z-index: 1;
+  width: 58px;
+  height: 58px;
+  fill: none;
+  stroke: rgba(245, 240, 236, 0.9);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.35;
 }
 .project-body {
   padding: 1.6rem;
@@ -677,7 +709,6 @@ section {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.2rem;
   flex-shrink: 0;
 }
 .cert-name {
@@ -715,6 +746,9 @@ section {
   gap: 1rem;
 }
 .quality-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
   font-family: "Playfair Display", serif;
   font-style: italic;
   font-size: 1.05rem;
@@ -727,6 +761,11 @@ section {
     background 0.2s,
     border-color 0.2s,
     transform 0.15s;
+}
+.quality-pill .icon {
+  width: 0.95rem;
+  height: 0.95rem;
+  color: var(--gold);
 }
 .quality-pill:hover {
   background: rgba(123, 79, 212, 0.15);
@@ -758,7 +797,12 @@ section {
   border-color: var(--violet-l);
 }
 .interest-item span:first-child {
-  font-size: 1.3rem;
+  display: flex;
+  color: var(--violet-l);
+}
+.interest-item span:first-child .icon {
+  width: 1.3rem;
+  height: 1.3rem;
 }
 
 /* ── CV SECTION ── */
@@ -767,36 +811,40 @@ section {
 }
 .cv-wrapper {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 340px) minmax(0, 1fr);
   gap: 4rem;
   margin-top: 4rem;
   align-items: start;
 }
 .cv-preview-container {
   position: relative;
+  width: 100%;
+  margin-inline: auto;
 }
 .cv-preview-frame {
   position: relative;
-  border-radius: 16px;
+  width: 100%;
+  aspect-ratio: 595 / 842;
+  border-radius: 6px;
   overflow: hidden;
   border: 1px solid var(--border);
-  box-shadow:
-    0 24px 60px rgba(0, 0, 0, 0.5),
-    0 0 0 1px rgba(123, 79, 212, 0.15);
-  transition:
-    transform 0.3s,
-    box-shadow 0.3s;
+  background: #fff;
 }
-.cv-preview-frame:hover {
-  transform: translateY(-6px) scale(1.01);
-  box-shadow:
-    0 32px 80px rgba(0, 0, 0, 0.6),
-    0 0 0 1px rgba(123, 79, 212, 0.3);
-}
-.cv-preview-frame img {
+.cv-preview-frame img,
+.cv-preview-frame iframe {
   display: block;
   width: 100%;
-  height: auto;
+  border: 0;
+}
+.cv-preview-frame img {
+  height: 100%;
+  object-fit: contain;
+}
+.cv-preview-frame iframe {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  background: #fff;
 }
 .cv-preview-overlay {
   position: absolute;
@@ -1243,6 +1291,16 @@ html {
   flex-wrap: wrap;
   gap: 1rem;
 }
+.tool-row-featured {
+  justify-content: center;
+  gap: 1.25rem;
+  margin-top: 2rem;
+}
+.tool-row-featured .tool-card {
+  width: min(100%, 300px);
+  min-height: 180px;
+  justify-content: center;
+}
 .tool-card {
   display: flex;
   flex-direction: column;
@@ -1272,7 +1330,10 @@ html {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.4rem;
+}
+.tool-icon .icon {
+  width: 1.6rem;
+  height: 1.6rem;
 }
 .tool-name {
   font-size: 0.9rem;
@@ -1343,7 +1404,15 @@ html {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 3.5rem;
+}
+.work-thumb .project-icon {
+  width: 58px;
+  height: 58px;
+  fill: none;
+  stroke: rgba(245, 240, 236, 0.9);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.35;
 }
 .work-thumb img {
   width: 100%;
@@ -1382,6 +1451,96 @@ html {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+.work-info .project-gallery {
+  max-width: 100%;
+  max-height: 64px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+}
+.work-info .project-gallery-item {
+  flex: 0 0 76px;
+}
+.project-resource {
+  display: grid;
+  grid-template-columns: minmax(0, 0.55fr) minmax(0, 1.45fr);
+  align-items: start;
+  gap: 0.8rem;
+  margin-top: 0.8rem;
+}
+.project-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--gold-l);
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition:
+    color 0.2s,
+    gap 0.2s;
+}
+.project-link:hover {
+  gap: 0.65rem;
+  color: var(--white);
+}
+.project-link .icon {
+  width: 1rem;
+  height: 1rem;
+}
+.project-media-preview {
+  display: grid;
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  place-items: center;
+  aspect-ratio: 16 / 9;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: #08080b;
+}
+.project-media-preview.is-unavailable {
+  padding: 0.6rem;
+  color: var(--muted);
+  font-size: 0.72rem;
+  text-align: center;
+}
+.project-media-preview img,
+.project-media-preview video,
+.project-media-preview iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  object-fit: contain;
+  background: #08080b;
+}
+.project-media-preview iframe {
+  aspect-ratio: 16 / 9;
+}
+.project-media-preview.is-facebook {
+  min-height: 500px;
+  aspect-ratio: auto;
+  align-items: start;
+  background: #f0f2f5;
+}
+.project-media-preview iframe.facebook-embed {
+  width: 100%;
+  height: 500px;
+  min-height: 500px;
+  background: #f0f2f5;
+}
+.work-info .project-resource {
+  grid-template-columns: minmax(0, 0.55fr) minmax(0, 1.45fr);
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+.work-info .project-media-preview {
+  max-height: 112px;
+}
+.work-info .project-media-preview.is-facebook {
+  display: none;
 }
 .journey-list {
   display: grid;

@@ -9,6 +9,7 @@ function cvBlob() {
 }
 document.querySelectorAll("[data-cv]").forEach((el) =>
   el.addEventListener("click", (e) => {
+    if (el.dataset.cvManaged === "true") return;
     e.preventDefault();
     const u = URL.createObjectURL(cvBlob());
     if (el.dataset.cv === "open") {
